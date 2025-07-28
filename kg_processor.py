@@ -127,12 +127,13 @@ class KnowledgeGraphProcessor:
             Ekstrak informasi terstruktur untuk node artikel BARU berdasarkan KONTEKS yang DIBERIKAN.
             Output Anda HARUS berupa data JSON yang valid sesuai skema yang diberikan, BUKAN definisi skemanya.
             Pastikan untuk mengekstrak secara eksplisit:
-            - Latar Belakang Penelitian
-            - Metodologi Penelitian
-            - Tujuan Penelitian
-            - Future Research
-            - Gap Penelitian
-            Jika informasi tidak ada, isi dengan 'null' atau kosong (sesuai definisi skema) daripada 'Tidak ditemukan'.
+            - Latar Belakang Penelitian (cari frasa seperti 'latar belakang', 'pendahuluan', atau konteks awal; jika tidak ditemukan, lakukan inferensi dari bagian pengantar atau konteks awal lainnya sebelum menyimpulkan 'Tidak ditemukan')
+            - Metodologi Penelitian (cari frasa seperti 'metode', 'pendekatan', 'prosedur'; jika tidak ditemukan, lakukan inferensi dari deskripsi proses atau langkah-langkah penelitian sebelum menyimpulkan 'Tidak ditemukan')
+            - Tujuan Penelitian (cari frasa seperti 'tujuan', 'sasaran', 'maksud'; jika tidak ditemukan, lakukan inferensi dari implikasi latar belakang atau hasil yang diharapkan sebelum menyimpulkan 'Tidak ditemukan')
+            - Penelitian Lanjutan (cari frasa seperti 'penelitian lanjutan', 'rekomendasi', 'studi lebih lanjut'; jika tidak ditemukan, lakukan inferensi dari kesimpulan, pembahasan, atau saran implisit terkait ruang lingkup penelitian sebelum menyimpulkan 'Tidak ditemukan')
+            - Gap Penelitian (cari frasa seperti 'keterbatasan', 'kesenjangan', 'tantangan'; jika tidak ditemukan, lakukan inferensi dari kesimpulan, pembahasan, atau kelemahan terkait ruang lingkup penelitian sebelum menyimpulkan 'Tidak ditemukan')
+            
+            Jika informasi tidak ditemukan setelah upaya inferensi, isi dengan 'Tidak ditemukan' hanya jika tidak ada petunjuk sama sekali.
 
             KONTEKS ARTIKEL BARU:
             Judul: {document_title}
@@ -145,15 +146,16 @@ class KnowledgeGraphProcessor:
             INSTRUKSI EKSTRAKSI NODE ARTIKEL BARU:
             Untuk 'article_node' yang sedang diproses, ekstrak:
             - ID: 'doc_{document_id}'
+            - Label: 'Artikel' (tetap)
             - Judul: {document_title}
-            - Summary: Ringkasan komprehensif maksimal 500 kata dari seluruh dokumen.
-            - Extracted Details:
-              * background: Latar belakang penelitian dan motivasi
-              * methodology: Metode penelitian yang digunakan
-              * purpose: Tujuan dan objektif penelitian
-              * future_research: Saran untuk penelitian masa depan
-              * research_gap: Gap atau keterbatasan yang diidentifikasi
-            Jika suatu detail tidak ditemukan, biarkan sebagai null.
+            - Att_goal: Tujuan penelitian (jika tidak ada, cari implikasi dari latar belakang atau metode)
+            - Att_method: Metodologi penelitian (jika tidak ada, cari deskripsi proses atau eksperimen)
+            - Att_background: Latar belakang penelitian (jika tidak ada, gunakan bagian pendahuluan)
+            - Att_future: Saran untuk penelitian lanjutan (jika tidak ada, cari saran implisit)
+            - Att_gaps: Kesenjangan atau keterbatasan yang diidentifikasi (jika tidak ada, cari kelemahan metode atau data)
+            - Type: 'article' (tetap)
+            - Content: Ringkasan komprehensif maksimal 500 kata dari seluruh dokumen.
+            Jika suatu detail tidak ditemukan meskipun ada petunjuk konteks, lakukan inferensi logis berdasarkan teks yang tersedia.
             
             CONTOH OUTPUT DATA (Ikuti format ini persis):
             ```json
