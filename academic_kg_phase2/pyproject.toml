@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "academic-kg-backend"
+version = "0.2.0"
+description = "Academic paper extraction and RAG-assisted knowledge graph backend"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.110,<1",
+    "uvicorn>=0.25,<1",
+    "python-multipart>=0.0.9,<1",
+    "python-dotenv>=1,<2",
+    "asyncpg>=0.29,<1",
+    "pgvector>=0.3,<1",
+    "langchain-core>=0.3,<2",
+    "langchain-google-genai>=2,<5",
+    "langchain-text-splitters>=0.3,<2",
+    "markitdown[pdf]>=0.1,<1",
+    "pydantic>=2,<3",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10", "httpx>=0.27,<1", "ruff>=0.9,<1"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+exclude = [".venv", "temp_uploads"]

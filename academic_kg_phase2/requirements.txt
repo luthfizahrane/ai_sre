@@ -1,0 +1,5 @@
+# Preferred installation: python -m pip install -e '.[dev]'
+# This file keeps the Phase 1 install command working.
+-e .
+pytest>=8,<10
+httpx>=0.27,<1
