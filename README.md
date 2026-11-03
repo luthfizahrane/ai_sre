@@ -1,6 +1,6 @@
-# Academic Paper Knowledge Graph — Phase 2 refactoring
+# Academic Paper Knowledge Graph
 
-RAG-driven academic paper extraction and knowledge graph backend; based on the authorized Phase 1 working copy. **Institutional research ownership applies:** do not publish source code, research data, prompts, or diagrams without the owner's approval.
+RAG-driven academic paper extraction and knowledge graph backend. **Institutional research ownership applies:** do not publish source code, research data, prompts, or diagrams without the owner's approval.
 
 ## Runtime flow
 
